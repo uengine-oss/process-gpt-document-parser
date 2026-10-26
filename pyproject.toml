@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "process-gpt-document-parser"
+version = "0.2.0"
+description = "HWP·HWPX·DOC·DOCX·PDF 문서를 같은 블록 구조(문단·표·그림)로 읽는 파서"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+authors = [{ name = "uEngine" }]
+dependencies = [
+    "olefile>=0.47",       # BSD-2-Clause, HWP·DOC 의 OLE 컨테이너
+]
+
+[project.optional-dependencies]
+pdf = [
+    "pdfplumber>=0.11",    # MIT (pdfminer.six MIT)
+    "pypdfium2>=4.20",     # Apache-2.0 / BSD-3-Clause
+]
+hwp-distribution = [
+    "cryptography>=41",    # Apache-2.0 / BSD-3-Clause, 배포용 HWP 의 AES 복호화
+]
+images = [
+    "Pillow>=10",          # MIT-CMU, bmp·tiff 를 PNG 로 바꿔 모델에 넘길 때
+]
+all = ["process-gpt-document-parser[pdf,hwp-distribution,images]"]
+dev = ["pytest>=8"]
+
+[project.scripts]
+process-gpt-document-parser = "process_gpt_document_parser.__main__:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
